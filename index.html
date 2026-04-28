@@ -1025,8 +1025,18 @@
 
     .footer { font-size: 10.5px; margin-top: 28px; }
 
-    /* Make sky background scroll on mobile (fixed bg is buggy on iOS) */
-    body { background-attachment: scroll, scroll, scroll; }
+    /* Mobile background — overlay mais leve + posição centrada no sol */
+    body {
+      background:
+        linear-gradient(180deg,
+          rgba(20, 12, 6, .10) 0%,
+          rgba(20, 12, 6, .02) 25%,
+          rgba(20, 12, 6, .08) 60%,
+          rgba(20, 12, 6, .50) 100%),
+        url("assets/sky-bg.png") center 22% / cover no-repeat,
+        #1f140a;
+      background-attachment: scroll, scroll, scroll;
+    }
   }
 
   /* Very small phones */

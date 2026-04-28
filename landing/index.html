@@ -1025,17 +1025,22 @@
 
     .footer { font-size: 10.5px; margin-top: 28px; }
 
-    /* Mobile background — overlay mais leve + posição centrada no sol */
+    /* Mobile background — céu visível no topo, overlay cresce gradualmente */
     body {
       background:
         linear-gradient(180deg,
-          rgba(20, 12, 6, .10) 0%,
-          rgba(20, 12, 6, .02) 25%,
-          rgba(20, 12, 6, .08) 60%,
-          rgba(20, 12, 6, .50) 100%),
+          rgba(20, 12, 6, .05) 0%,
+          rgba(20, 12, 6, .00) 12%,
+          rgba(20, 12, 6, .30) 38%,
+          rgba(20, 12, 6, .48) 65%,
+          rgba(20, 12, 6, .58) 100%),
         url("assets/sky-bg.png") center 22% / cover no-repeat,
         #1f140a;
       background-attachment: scroll, scroll, scroll;
+    }
+    .divider span {
+      color: #fff8e1;
+      text-shadow: 0 1px 8px rgba(20, 10, 4, .95), 0 0 20px rgba(20, 10, 4, .85);
     }
   }
 

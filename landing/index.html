@@ -24,6 +24,7 @@
     --green-shadow: #144a1d;
   }
   * { box-sizing: border-box; }
+  html { background: #1f140a; }
   html, body {
     margin: 0; padding: 0;
     font-family: "Inter", -apple-system, system-ui, sans-serif;
@@ -33,19 +34,23 @@
     min-height: 100%;
   }
   body {
-    background:
-      /* dark vignette overlay so text stays readable */
-      linear-gradient(180deg,
-        rgba(20, 12, 6, .35) 0%,
-        rgba(20, 12, 6, .15) 30%,
-        rgba(20, 12, 6, .15) 70%,
-        rgba(20, 12, 6, .55) 100%),
-      url("assets/sky-bg.png") center top / cover no-repeat fixed,
-      #1f140a;
-    background-attachment: scroll, fixed, scroll;
-    position: relative;
+    background: linear-gradient(180deg,
+      rgba(20, 12, 6, .35) 0%,
+      rgba(20, 12, 6, .15) 30%,
+      rgba(20, 12, 6, .15) 70%,
+      rgba(20, 12, 6, .55) 100%);
   }
-  body::before, body::after { content: none; }
+  body::after { content: none; }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url("assets/sky-bg.png") center center / cover no-repeat;
+    transform: scale(1.06);
+    animation: skyDrift 22s ease-in-out infinite;
+    will-change: transform;
+  }
 
   /* Page wrap — transparent so the sky shows through */
   .wrap {
@@ -181,11 +186,13 @@
     text-shadow:
       0 2px 14px rgba(20, 10, 4, .85),
       0 1px 3px rgba(20, 10, 4, .9);
+    animation: fadeUp .9s ease-out .1s both;
   }
   h1.headline .hl-accent {
     color: #ffd07a;
     position: relative;
     white-space: nowrap;
+    animation: accentGlow 3.5s ease-in-out 1.2s infinite;
   }
   h1.headline .hl-accent::after {
     content: "";
@@ -208,6 +215,7 @@
     margin: 0 auto 26px;
     text-wrap: pretty;
     text-shadow: 0 1px 8px rgba(20, 10, 4, .75);
+    animation: fadeUp .9s ease-out .45s both;
   }
   .lede em { color: #ffd07a; font-style: normal; font-weight: 600; }
 
@@ -215,6 +223,7 @@
   .video-card {
     margin: 0 auto 14px;
     position: relative;
+    animation: fadeUp .9s ease-out .75s both;
   }
   .video-frame {
     position: relative;
@@ -381,10 +390,27 @@
     0%   { background-position: 200% 0, 0 0; }
     100% { background-position: -100% 0, 0 0; }
   }
+  @keyframes skyDrift {
+    0%, 100% { transform: scale(1.06) translate(0, 0); }
+    25%       { transform: scale(1.06) translate(-1.5%, -0.8%); }
+    50%       { transform: scale(1.06) translate(1.2%, 0.6%); }
+    75%       { transform: scale(1.06) translate(-0.6%, 1.2%); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes accentGlow {
+    0%, 100% { text-shadow: 0 2px 12px rgba(255, 175, 45, .25); }
+    50%       { text-shadow: 0 2px 24px rgba(255, 205, 70, .72), 0 0 48px rgba(255, 150, 30, .32); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .sound-note { animation: none; }
     .sound-note::before { animation: none; opacity: 0; }
     .cta-gold { animation: none; }
+    body::before { animation: none; }
+    h1.headline, .lede, .video-card { animation: none; opacity: 1; transform: none; }
+    h1.headline .hl-accent { animation: none; }
   }
 
   /* Section divider */
@@ -1025,18 +1051,17 @@
 
     .footer { font-size: 10.5px; margin-top: 28px; }
 
-    /* Mobile background — céu visível no topo, overlay cresce gradualmente */
+    /* Mobile — overlay gradual, sky via ::before fixo */
     body {
-      background:
-        linear-gradient(180deg,
-          rgba(20, 12, 6, .05) 0%,
-          rgba(20, 12, 6, .00) 12%,
-          rgba(20, 12, 6, .30) 38%,
-          rgba(20, 12, 6, .48) 65%,
-          rgba(20, 12, 6, .58) 100%),
-        url("assets/sky-bg.png") center 22% / cover no-repeat,
-        #1f140a;
-      background-attachment: scroll, scroll, scroll;
+      background: linear-gradient(180deg,
+        rgba(20, 12, 6, .05) 0%,
+        rgba(20, 12, 6, .00) 12%,
+        rgba(20, 12, 6, .30) 38%,
+        rgba(20, 12, 6, .48) 65%,
+        rgba(20, 12, 6, .58) 100%);
+    }
+    body::before {
+      background-position: center 22%;
     }
     .divider span {
       color: #fff8e1;

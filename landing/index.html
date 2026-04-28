@@ -335,9 +335,52 @@
     0% { background-position: 200% 0; }
     100% { background-position: -100% 0; }
   }
+  @keyframes ctaBreathe {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 250, 220, .8),
+        inset 0 -2px 0 rgba(100, 60, 10, .5),
+        0 0 28px rgba(255, 200, 80, .35),
+        0 10px 30px rgba(20, 10, 4, .55);
+    }
+    50% {
+      transform: scale(1.04);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 250, 220, .9),
+        inset 0 -2px 0 rgba(100, 60, 10, .5),
+        0 0 50px rgba(255, 200, 80, .55),
+        0 14px 36px rgba(20, 10, 4, .6);
+    }
+  }
+  @keyframes ctaBreatheHover {
+    0%, 100% {
+      transform: scale(1.03);
+      filter: brightness(1.06);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 250, 220, .85),
+        inset 0 -2px 0 rgba(100, 60, 10, .5),
+        0 0 45px rgba(255, 200, 80, .55),
+        0 12px 34px rgba(20, 10, 4, .6);
+    }
+    50% {
+      transform: scale(1.06);
+      filter: brightness(1.1);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 250, 220, .95),
+        inset 0 -2px 0 rgba(100, 60, 10, .5),
+        0 0 70px rgba(255, 200, 80, .75),
+        0 16px 40px rgba(20, 10, 4, .65);
+    }
+  }
+  @keyframes ctaLightSweep {
+    0%   { background-position: 200% 0, 0 0; }
+    100% { background-position: -100% 0, 0 0; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .sound-note { animation: none; }
     .sound-note::before { animation: none; opacity: 0; }
+    .cta-gold { animation: none; }
   }
 
   /* Section divider */
@@ -466,35 +509,30 @@
     justify-content: center;
     gap: 14px;
     width: 100%;
-    padding: 20px 28px;
+    padding: 23px 32px;
     border-radius: 999px;
-    background: linear-gradient(180deg, #ffd97a 0%, #c8932e 50%, #a3741e 100%);
-    border: 2px solid #f5d57a;
+    background-image:
+      linear-gradient(105deg, transparent 25%, rgba(255, 255, 200, .45) 50%, transparent 75%),
+      linear-gradient(90deg, #9a6818 0%, #c8902a 20%, #fce085 50%, #c8902a 80%, #9a6818 100%);
+    background-size: 300% 100%, 100% 100%;
+    background-position: 200% 0, 0 0;
+    background-repeat: no-repeat;
+    border: 2px solid rgba(255, 235, 160, .75);
     color: #1f1208;
     font-family: "Inter", sans-serif;
     font-weight: 800;
-    font-size: 22px;
+    font-size: 25px;
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: .06em;
-    box-shadow:
-      inset 0 2px 0 rgba(255, 250, 220, .8),
-      inset 0 -2px 0 rgba(120, 80, 20, .5),
-      0 10px 30px rgba(20, 10, 4, .55),
-      0 0 60px rgba(255, 200, 100, .25);
-    transition: transform .15s, filter .15s, box-shadow .15s;
+    margin: 4px 0 16px;
+    animation: ctaBreathe 2.5s ease-in-out infinite, ctaLightSweep 6s linear infinite;
   }
   .cta-gold:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.05);
-    box-shadow:
-      inset 0 2px 0 rgba(255, 250, 220, .85),
-      inset 0 -2px 0 rgba(120, 80, 20, .5),
-      0 14px 36px rgba(20, 10, 4, .6),
-      0 0 80px rgba(255, 200, 100, .35);
+    animation: ctaBreatheHover 1.8s ease-in-out infinite, ctaLightSweep 6s linear infinite;
   }
-  .cta-gold:active { transform: translateY(1px); }
-  .cta-gold svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .cta-gold:active { transform: scale(0.98); animation: none; }
+  .cta-gold svg { width: 24px; height: 24px; flex-shrink: 0; }
   .cta-gold-sub {
     display: block;
     text-align: center;
@@ -940,12 +978,12 @@
     .offer-bullets li .ic svg { width: 14px; height: 14px; }
 
     .cta-gold {
-      font-size: 17px;
-      padding: 16px 18px;
+      font-size: 20px;
+      padding: 19px 21px;
       gap: 10px;
       letter-spacing: .04em;
     }
-    .cta-gold svg { width: 22px; height: 22px; }
+    .cta-gold svg { width: 20px; height: 20px; }
     .cta-gold-sub { font-size: 13px; }
 
     .pay-logos { gap: 8px; margin-top: 14px; }
@@ -990,7 +1028,7 @@
     h1.headline { font-size: 23px; }
     .offer-price { font-size: 64px; }
     .offer-price .cents { font-size: 28px; top: 8px; }
-    .cta-gold { font-size: 15px; padding: 14px 14px; }
+    .cta-gold { font-size: 17px; padding: 16px 16px; }
     .pay-logos .pl { font-size: 10px; height: 24px; padding: 0 6px; }
   }
 </style>
@@ -1085,11 +1123,9 @@
       </ul>
 
       <a class="cta-gold" href="https://pay.hotmart.com/P105580794A" target="_blank" rel="noopener">
-        Sí, Quiero Mi Oración
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1.5"/>
-          <circle cx="19" cy="21" r="1.5"/>
-          <path d="M2.5 3h3l2.7 13.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.5L22.5 7H6"/>
+        QUIERO ACCEDER AHORA
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
       <a class="cta-gold-sub" href="https://pay.hotmart.com/P105580794A" target="_blank" rel="noopener">Recibir mi oración ahora →</a>

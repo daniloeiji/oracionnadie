@@ -243,6 +243,7 @@
     width: 100% !important;
     height: 100% !important;
     border: 0;
+    will-change: transform;
   }
   .video-placeholder {
     position: absolute; inset: 0;
@@ -317,6 +318,14 @@
   #videoFrame:-ms-fullscreen {
     width: 100vw;
     height: 100vh;
+    /* Remove efeitos que forçam software rendering no vídeo em fullscreen */
+    border-radius: 0 !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+  }
+  /* Pausa animação do fundo enquanto vídeo está em fullscreen (libera GPU) */
+  body.fs-mode::before {
+    animation-play-state: paused;
   }
   /* Em fullscreen: shield transparente via classe JS (mais confiável que :fullscreen em filhos) */
   .video-shield.fs-active {
@@ -1366,9 +1375,11 @@
 
   function onFSChange() {
     if (getFS()) {
+      document.body.classList.add('fs-mode');
       shield.classList.add('fs-active');
       if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
     } else {
+      document.body.classList.remove('fs-mode');
       pauseAndReset();
     }
   }

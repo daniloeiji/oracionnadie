@@ -277,6 +277,15 @@
     opacity: .5;
     letter-spacing: .08em;
   }
+  .video-shield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 48px;
+    z-index: 5;
+    cursor: pointer;
+  }
 
   /* Urgency notice — high-attention warning */
   .sound-note {
@@ -1104,27 +1113,16 @@
   <!-- VIDEO -->
   <div class="video-card">
     <div class="video-frame">
-      <!-- ============================================================
-           VIDEO · Pega aquí tu embed (VTURB, YouTube no listado, Vimeo, etc.)
-           
-           VTURB:
-             <vturb-smartplayer id="vid-XXXXXXXXX"></vturb-smartplayer>
-             <script src="https://scripts.converteai.net/.../player.js" async></script>
-           
-           YouTube no listado (gratis):
-             <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID?rel=0&modestbranding=1&playsinline=1"
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                     allowfullscreen></iframe>
-           
-           Borra el .video-placeholder y pega tu embed aquí.
-      ============================================================ -->
-      <div class="video-placeholder">
-        <div class="play">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <strong>VIDEO AQUÍ</strong>
-        <small>16:9 · reemplazar este bloque por el embed</small>
-      </div>
+      <div class="video-shield" id="videoShield"></div>
+      <iframe
+        id="ytPlayer"
+        src="https://www.youtube.com/embed/aVf4LjWGgoI?rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=1&controls=1&playsinline=1&enablejsapi=1"
+        title="Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin"
+      ></iframe>
     </div>
   </div>
 
@@ -1248,6 +1246,39 @@
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Carrega YouTube IFrame API
+  (function() {
+    var s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  })();
+
+  var ytPlayer;
+  function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player('ytPlayer', {
+      events: { onReady: function() {} }
+    });
+  }
+
+  var shield = document.getElementById('videoShield');
+  if (shield) {
+    // Clique no shield → play/pause via API (sem abrir YouTube)
+    shield.addEventListener('click', function() {
+      if (!ytPlayer || !ytPlayer.getPlayerState) return;
+      var state = ytPlayer.getPlayerState();
+      if (state === 1) {
+        ytPlayer.pauseVideo();
+      } else if (state === 0) {
+        ytPlayer.seekTo(0);
+        ytPlayer.playVideo();
+      } else {
+        ytPlayer.playVideo();
+      }
+    });
+    // Bloqueia clique direito
+    shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  }
 </script>
 
 </body>

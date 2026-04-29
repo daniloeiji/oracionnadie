@@ -1299,7 +1299,6 @@
   }
 
   var shield = document.getElementById('videoShield');
-  var isMobile = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
   function pauseAndReset() {
     shield.classList.remove('fs-active');
@@ -1309,39 +1308,41 @@
 
   if (shield) {
     shield.addEventListener('click', function() {
-      // Mobile inline tocando: clique pausa
+      // Tocando inline: clique pausa
       if (shield.classList.contains('fs-active')) {
         pauseAndReset();
         return;
       }
 
-      if (isMobile) {
-        // Mobile: toca inline com shield transparente
-        shield.classList.add('fs-active');
-        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
-        // Tenta girar para paisagem (Android; iOS não suporta)
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape').catch(function() {});
-        }
+      // Tenta fullscreen no iframe em qualquer dispositivo
+      var iframe = document.getElementById('ytPlayer');
+      var requestFS = iframe.requestFullscreen
+        || iframe.webkitRequestFullscreen
+        || iframe.mozRequestFullScreen
+        || iframe.msRequestFullscreen;
+
+      if (requestFS) {
+        requestFS.call(iframe);
       } else {
-        // Desktop: fullscreen nativo direto no iframe (sem overhead de container)
-        var iframe = document.getElementById('ytPlayer');
-        var requestFS = iframe.requestFullscreen
-          || iframe.webkitRequestFullscreen
-          || iframe.mozRequestFullScreen
-          || iframe.msRequestFullscreen;
-        if (requestFS) requestFS.call(iframe);
-        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+        // iOS: sem suporte a FS — toca inline com shield transparente
+        shield.classList.add('fs-active');
+      }
+
+      if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+
+      // Tenta girar para paisagem (Android; iOS não suporta)
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(function() {});
       }
     });
     shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
   }
 
-  // Desktop: ao sair do fullscreen nativo, mantém vídeo tocando inline com shield transparente
+  // Ao sair do fullscreen (ESC ou botão): mantém vídeo tocando inline
   function onFSChange() {
     var fs = document.fullscreenElement || document.webkitFullscreenElement
            || document.mozFullScreenElement || document.msFullscreenElement;
-    if (!fs && !isMobile) shield.classList.add('fs-active');
+    if (!fs) shield.classList.add('fs-active');
   }
   document.addEventListener('fullscreenchange', onFSChange);
   document.addEventListener('webkitfullscreenchange', onFSChange);

@@ -1336,6 +1336,17 @@
     });
     shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
   }
+
+  // Desktop: ao sair do fullscreen nativo, mantém vídeo tocando inline com shield transparente
+  function onFSChange() {
+    var fs = document.fullscreenElement || document.webkitFullscreenElement
+           || document.mozFullScreenElement || document.msFullscreenElement;
+    if (!fs && !isMobile) shield.classList.add('fs-active');
+  }
+  document.addEventListener('fullscreenchange', onFSChange);
+  document.addEventListener('webkitfullscreenchange', onFSChange);
+  document.addEventListener('mozfullscreenchange', onFSChange);
+  document.addEventListener('MSFullscreenChange', onFSChange);
 </script>
 
 </body>

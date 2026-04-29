@@ -311,23 +311,7 @@
     height: 28px;
   }
 
-  /* Fullscreen container ocupa a tela toda */
-  #videoFrame:fullscreen,
-  #videoFrame:-webkit-full-screen,
-  #videoFrame:-moz-full-screen,
-  #videoFrame:-ms-fullscreen {
-    width: 100vw;
-    height: 100vh;
-    /* Remove efeitos que forçam software rendering no vídeo em fullscreen */
-    border-radius: 0 !important;
-    overflow: visible !important;
-    box-shadow: none !important;
-  }
-  /* Pausa animação do fundo enquanto vídeo está em fullscreen (libera GPU) */
-  body.fs-mode::before {
-    animation-play-state: paused;
-  }
-  /* Em fullscreen: shield transparente via classe JS (mais confiável que :fullscreen em filhos) */
+  /* Mobile: shield transparente quando vídeo toca inline */
   .video-shield.fs-active {
     background: transparent !important;
     cursor: default;
@@ -1315,78 +1299,43 @@
   }
 
   var shield = document.getElementById('videoShield');
-  var videoFrame = document.getElementById('videoFrame');
-
-  function exitFS() {
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-    else if (document.msExitFullscreen) document.msExitFullscreen();
-  }
-
-  function getFS() {
-    return document.fullscreenElement
-      || document.webkitFullscreenElement
-      || document.mozFullScreenElement
-      || document.msFullscreenElement;
-  }
-
-  function playInline() {
-    shield.classList.add('fs-active');
-    if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
-  }
+  var isMobile = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 
   function pauseAndReset() {
     shield.classList.remove('fs-active');
     if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+    if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
   }
 
   if (shield) {
     shield.addEventListener('click', function() {
-      if (getFS()) {
-        // Sai do fullscreen mas mantém o vídeo tocando inline
-        exitFS();
-        return;
-      }
-
+      // Mobile inline tocando: clique pausa
       if (shield.classList.contains('fs-active')) {
-        // Mobile inline tocando: clique pausa
         pauseAndReset();
         return;
       }
 
-      // Tenta fullscreen (desktop)
-      var requestFS = videoFrame.requestFullscreen
-        || videoFrame.webkitRequestFullscreen
-        || videoFrame.mozRequestFullScreen
-        || videoFrame.msRequestFullscreen;
-
-      if (requestFS) {
-        // Desktop: play disparado no onFSChange
-        requestFS.call(videoFrame);
+      if (isMobile) {
+        // Mobile: toca inline com shield transparente
+        shield.classList.add('fs-active');
+        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+        // Tenta girar para paisagem (Android; iOS não suporta)
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(function() {});
+        }
       } else {
-        // iOS/mobile sem suporte a FS: toca inline com shield transparente
-        playInline();
+        // Desktop: fullscreen nativo direto no iframe (sem overhead de container)
+        var iframe = document.getElementById('ytPlayer');
+        var requestFS = iframe.requestFullscreen
+          || iframe.webkitRequestFullscreen
+          || iframe.mozRequestFullScreen
+          || iframe.msRequestFullscreen;
+        if (requestFS) requestFS.call(iframe);
+        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
       }
     });
     shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
   }
-
-  function onFSChange() {
-    if (getFS()) {
-      document.body.classList.add('fs-mode');
-      shield.classList.add('fs-active');
-      if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
-    } else {
-      document.body.classList.remove('fs-mode');
-      // Vídeo continua tocando inline — shield permanece transparente
-      // Um clique no shield enquanto inline pausa (tratado pelo handler fs-active)
-    }
-  }
-  document.addEventListener('fullscreenchange', onFSChange);
-  document.addEventListener('webkitfullscreenchange', onFSChange);
-  document.addEventListener('mozfullscreenchange', onFSChange);
-  document.addEventListener('MSFullscreenChange', onFSChange);
 </script>
 
 </body>

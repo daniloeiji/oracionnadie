@@ -1160,7 +1160,7 @@
       </div>
       <iframe
         id="ytPlayer"
-        src="https://www.youtube.com/embed/aVf4LjWGgoI?rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=1&controls=0&playsinline=0&enablejsapi=1"
+        src="https://www.youtube.com/embed/aVf4LjWGgoI?rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&controls=0&playsinline=1&enablejsapi=1"
         title="Video"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowfullscreen
@@ -1315,43 +1315,61 @@
     else if (document.msExitFullscreen) document.msExitFullscreen();
   }
 
+  function getFS() {
+    return document.fullscreenElement
+      || document.webkitFullscreenElement
+      || document.mozFullScreenElement
+      || document.msFullscreenElement;
+  }
+
+  function playInline() {
+    shield.classList.add('fs-active');
+    if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+  }
+
+  function pauseAndReset() {
+    shield.classList.remove('fs-active');
+    if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+  }
+
   if (shield) {
     shield.addEventListener('click', function() {
-      var isFS = document.fullscreenElement
-        || document.webkitFullscreenElement
-        || document.mozFullScreenElement
-        || document.msFullscreenElement;
-
-      if (isFS) {
-        // Dentro do fullscreen: pausa e sai
+      if (getFS()) {
+        // Desktop fullscreen: clique pausa e sai
         if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
         exitFS();
+        return;
+      }
+
+      if (shield.classList.contains('fs-active')) {
+        // Mobile inline tocando: clique pausa
+        pauseAndReset();
+        return;
+      }
+
+      // Tenta fullscreen (desktop)
+      var requestFS = videoFrame.requestFullscreen
+        || videoFrame.webkitRequestFullscreen
+        || videoFrame.mozRequestFullScreen
+        || videoFrame.msRequestFullscreen;
+
+      if (requestFS) {
+        // Desktop: play disparado no onFSChange
+        requestFS.call(videoFrame);
       } else {
-        // Fora do fullscreen: pede fullscreen no container
-        // o play é disparado no onFSChange após o fullscreen estar pronto
-        var requestFS = videoFrame.requestFullscreen
-          || videoFrame.webkitRequestFullscreen
-          || videoFrame.mozRequestFullScreen
-          || videoFrame.msRequestFullscreen;
-        if (requestFS) requestFS.call(videoFrame);
+        // iOS/mobile sem suporte a FS: toca inline com shield transparente
+        playInline();
       }
     });
     shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
   }
 
   function onFSChange() {
-    var fs = document.fullscreenElement
-      || document.webkitFullscreenElement
-      || document.mozFullScreenElement
-      || document.msFullscreenElement;
-    if (fs) {
-      // Fullscreen ativo: shield vira transparente e vídeo começa
+    if (getFS()) {
       shield.classList.add('fs-active');
       if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
     } else {
-      // Fullscreen encerrado: thumbnail volta e vídeo pausa
-      shield.classList.remove('fs-active');
-      if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+      pauseAndReset();
     }
   }
   document.addEventListener('fullscreenchange', onFSChange);

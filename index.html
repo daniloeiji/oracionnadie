@@ -1344,8 +1344,7 @@
   if (shield) {
     shield.addEventListener('click', function() {
       if (getFS()) {
-        // Desktop fullscreen: clique pausa e sai
-        if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+        // Sai do fullscreen mas mantém o vídeo tocando inline
         exitFS();
         return;
       }
@@ -1380,7 +1379,8 @@
       if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
     } else {
       document.body.classList.remove('fs-mode');
-      pauseAndReset();
+      // Vídeo continua tocando inline — shield permanece transparente
+      // Um clique no shield enquanto inline pausa (tratado pelo handler fs-active)
     }
   }
   document.addEventListener('fullscreenchange', onFSChange);

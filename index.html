@@ -318,18 +318,12 @@
     width: 100vw;
     height: 100vh;
   }
-  /* Em fullscreen: shield vira overlay transparente — vídeo visível, cliques bloqueados */
-  #videoFrame:fullscreen .video-shield,
-  #videoFrame:-webkit-full-screen .video-shield,
-  #videoFrame:-moz-full-screen .video-shield,
-  #videoFrame:-ms-fullscreen .video-shield {
+  /* Em fullscreen: shield transparente via classe JS (mais confiável que :fullscreen em filhos) */
+  .video-shield.fs-active {
     background: transparent !important;
     cursor: default;
   }
-  #videoFrame:fullscreen .video-shield .play-icon,
-  #videoFrame:-webkit-full-screen .video-shield .play-icon,
-  #videoFrame:-moz-full-screen .video-shield .play-icon,
-  #videoFrame:-ms-fullscreen .video-shield .play-icon {
+  .video-shield.fs-active .play-icon {
     display: none;
   }
 
@@ -1329,29 +1323,36 @@
         || document.msFullscreenElement;
 
       if (isFS) {
-        // Dentro do fullscreen: pausa e sai — botões do YT nunca funcionam
+        // Dentro do fullscreen: pausa e sai
         if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
         exitFS();
       } else {
-        // Fora do fullscreen: entra em fullscreen no container e toca
+        // Fora do fullscreen: pede fullscreen no container
+        // o play é disparado no onFSChange após o fullscreen estar pronto
         var requestFS = videoFrame.requestFullscreen
           || videoFrame.webkitRequestFullscreen
           || videoFrame.mozRequestFullScreen
           || videoFrame.msRequestFullscreen;
         if (requestFS) requestFS.call(videoFrame);
-        if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
       }
     });
     shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
   }
 
-  // ESC ou saída nativa do fullscreen → pausa
   function onFSChange() {
     var fs = document.fullscreenElement
       || document.webkitFullscreenElement
       || document.mozFullScreenElement
       || document.msFullscreenElement;
-    if (!fs && ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+    if (fs) {
+      // Fullscreen ativo: shield vira transparente e vídeo começa
+      shield.classList.add('fs-active');
+      if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+    } else {
+      // Fullscreen encerrado: thumbnail volta e vídeo pausa
+      shield.classList.remove('fs-active');
+      if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+    }
   }
   document.addEventListener('fullscreenchange', onFSChange);
   document.addEventListener('webkitfullscreenchange', onFSChange);

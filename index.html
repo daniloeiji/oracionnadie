@@ -282,6 +282,32 @@
     inset: 0;
     z-index: 5;
     cursor: pointer;
+    background: url('https://img.youtube.com/vi/aVf4LjWGgoI/maxresdefault.jpg') center / cover no-repeat, #0a0805;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-shield .play-icon {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: rgba(253, 250, 243, .95);
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 6px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.55);
+    transition: transform .18s, box-shadow .18s;
+    pointer-events: none;
+  }
+  .video-shield:hover .play-icon {
+    transform: scale(1.1);
+    box-shadow: 0 12px 44px rgba(0,0,0,.65);
+  }
+  .video-shield .play-icon svg {
+    width: 28px;
+    height: 28px;
   }
 
   /* Urgency notice — high-attention warning */
@@ -1110,7 +1136,11 @@
   <!-- VIDEO -->
   <div class="video-card">
     <div class="video-frame">
-      <div class="video-shield" id="videoShield"></div>
+      <div class="video-shield" id="videoShield">
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+      </div>
       <iframe
         id="ytPlayer"
         src="https://www.youtube.com/embed/aVf4LjWGgoI?rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=1&controls=0&playsinline=0&enablejsapi=1"
@@ -1262,17 +1292,28 @@
   if (shield) {
     shield.addEventListener('click', function() {
       var iframe = document.getElementById('ytPlayer');
-      // Request fullscreen on the iframe (cross-browser)
       var requestFS = iframe.requestFullscreen
         || iframe.webkitRequestFullscreen
         || iframe.mozRequestFullScreen
         || iframe.msRequestFullscreen;
       if (requestFS) requestFS.call(iframe);
-      // Start playing
       if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
     });
     shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
   }
+
+  // Ao sair do fullscreen → pausa e o shield cobre o vídeo novamente
+  function onFSChange() {
+    var fs = document.fullscreenElement
+      || document.webkitFullscreenElement
+      || document.mozFullScreenElement
+      || document.msFullscreenElement;
+    if (!fs && ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
+  }
+  document.addEventListener('fullscreenchange', onFSChange);
+  document.addEventListener('webkitfullscreenchange', onFSChange);
+  document.addEventListener('mozfullscreenchange', onFSChange);
+  document.addEventListener('MSFullscreenChange', onFSChange);
 </script>
 
 </body>

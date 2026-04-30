@@ -4,6 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>El Llamado Divino — Una oración para tu vida</title>
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/8d053a7e-c0fa-4ca7-b1e2-4fe661e7ddaa/players/69f3c775f646b7c8621cf0c7/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/8d053a7e-c0fa-4ca7-b1e2-4fe661e7ddaa/69f3c63f022f9de9d4c808e3/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://api.vturb.com.br">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -289,47 +297,7 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     opacity: .5;
     letter-spacing: .08em;
   }
-  .video-shield {
-    position: absolute;
-    inset: 0;
-    z-index: 5;
-    cursor: pointer;
-    background: url('https://img.youtube.com/vi/aVf4LjWGgoI/maxresdefault.jpg') center / cover no-repeat, #0a0805;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .video-shield .play-icon {
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
-    background: rgba(253, 250, 243, .95);
-    color: var(--red);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 6px;
-    box-shadow: 0 8px 32px rgba(0,0,0,.55);
-    transition: transform .18s, box-shadow .18s;
-    pointer-events: none;
-  }
-  .video-shield:hover .play-icon {
-    transform: scale(1.1);
-    box-shadow: 0 12px 44px rgba(0,0,0,.65);
-  }
-  .video-shield .play-icon svg {
-    width: 28px;
-    height: 28px;
-  }
 
-  /* Mobile: shield transparente quando vídeo toca inline */
-  .video-shield.fs-active {
-    background: transparent !important;
-    cursor: default;
-  }
-  .video-shield.fs-active .play-icon {
-    display: none;
-  }
 
   /* Urgency notice — high-attention warning */
   .sound-note {
@@ -1156,21 +1124,9 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 
   <!-- VIDEO -->
   <div class="video-card">
-    <div class="video-frame" id="videoFrame">
-      <div class="video-shield" id="videoShield">
-        <div class="play-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </div>
-      </div>
-      <iframe
-        id="ytPlayer"
-        src="https://www.youtube.com/embed/aVf4LjWGgoI?rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&controls=0&playsinline=1&enablejsapi=1"
-        title="Video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-        allowfullscreen
-        loading="lazy"
-        referrerpolicy="strict-origin"
-      ></iframe>
+    <div class="video-frame">
+      <vturb-smartplayer id="vid-69f3c775f646b7c8621cf0c7" style="display:block;margin:0 auto;width:100%;"></vturb-smartplayer>
+      <script type="text/javascript">var s=document.createElement("script");s.src="https://scripts.converteai.net/8d053a7e-c0fa-4ca7-b1e2-4fe661e7ddaa/players/69f3c775f646b7c8621cf0c7/v4/player.js";s.async=!0;document.head.appendChild(s);</script>
     </div>
   </div>
 
@@ -1295,70 +1251,6 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Carrega YouTube IFrame API
-  (function() {
-    var s = document.createElement('script');
-    s.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(s);
-  })();
-
-  var ytPlayer;
-  function onYouTubeIframeAPIReady() {
-    ytPlayer = new YT.Player('ytPlayer', {
-      events: { onReady: function() {} }
-    });
-  }
-
-  var shield = document.getElementById('videoShield');
-
-  function pauseAndReset() {
-    shield.classList.remove('fs-active');
-    if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
-    if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
-  }
-
-  if (shield) {
-    shield.addEventListener('click', function() {
-      // Tocando inline: clique pausa
-      if (shield.classList.contains('fs-active')) {
-        pauseAndReset();
-        return;
-      }
-
-      // Tenta fullscreen no iframe em qualquer dispositivo
-      var iframe = document.getElementById('ytPlayer');
-      var requestFS = iframe.requestFullscreen
-        || iframe.webkitRequestFullscreen
-        || iframe.mozRequestFullScreen
-        || iframe.msRequestFullscreen;
-
-      if (requestFS) {
-        requestFS.call(iframe);
-      } else {
-        // iOS: sem suporte a FS — toca inline com shield transparente
-        shield.classList.add('fs-active');
-      }
-
-      if (ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
-
-      // Tenta girar para paisagem (Android; iOS não suporta)
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(function() {});
-      }
-    });
-    shield.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-  }
-
-  // Ao sair do fullscreen (ESC ou botão): mantém vídeo tocando inline
-  function onFSChange() {
-    var fs = document.fullscreenElement || document.webkitFullscreenElement
-           || document.mozFullScreenElement || document.msFullscreenElement;
-    if (!fs) shield.classList.add('fs-active');
-  }
-  document.addEventListener('fullscreenchange', onFSChange);
-  document.addEventListener('webkitfullscreenchange', onFSChange);
-  document.addEventListener('mozfullscreenchange', onFSChange);
-  document.addEventListener('MSFullscreenChange', onFSChange);
 </script>
 
 </body>

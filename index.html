@@ -434,6 +434,19 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     h1.headline .hl-accent { animation: none; }
   }
 
+  /* Seção de compra — oculta até 19:35 min */
+  .buy-section {
+    opacity: 0;
+    transform: translateY(28px);
+    pointer-events: none;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .buy-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
   /* Section divider */
   .divider {
     display: flex; align-items: center; gap: 14px;
@@ -1135,6 +1148,9 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     <span>Mira el video <b>completo</b> antes de salir — puede no estar disponible después.</span>
   </div>
 
+  <!-- Seção de compra — revelada após 19:35 min -->
+  <div class="buy-section" id="buySection">
+
   <!-- Divider -->
   <div class="divider"><span>Comienza Hoy Mismo</span></div>
 
@@ -1192,7 +1208,7 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
   </div>
 
   <!-- Trust strip -->
-  <div class="trust-strip">
+  <div class="trust-strip" id="trustStrip">
     <div class="trust-item">
       <div class="ic">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1228,6 +1244,8 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     </div>
   </div>
 
+  </div><!-- /buy-section -->
+
   <p class="closing">
     “A veces, una sola oración basta para cambiar el rumbo de toda una vida.”
   </p>
@@ -1250,6 +1268,12 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Revela seção de compra após 19:35 min (1170 s)
+  setTimeout(function() {
+    var s = document.getElementById('buySection');
+    if (s) s.classList.add('visible');
+  }, 1170000);
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

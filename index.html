@@ -1269,40 +1269,8 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Revela seção de compra quando o vídeo atingir 22:28 (1348s)
-  var buyRevealed = false;
-  var BUY_TIME = 10;
-
-  function revealBuy() {
-    if (buyRevealed) return;
-    buyRevealed = true;
-    var s = document.getElementById('buySection');
-    if (s) s.classList.add('visible');
-  }
-
-  function onTimeUpdate(currentTime) {
-    if (currentTime >= BUY_TIME) revealBuy();
-  }
-
-  // Vturb smart player — aguarda o elemento estar pronto
-  var playerEl = document.getElementById('vid-69f3c775f646b7c8621cf0c7');
-  if (playerEl) {
-    // Evento nativo do web component Vturb
-    playerEl.addEventListener('timeupdate', function(e) {
-      var t = e.detail && e.detail.currentTime;
-      if (t !== undefined) onTimeUpdate(t);
-    });
-
-    // Fallback: polling via smartplayer interno (caso timeupdate não dispare)
-    var pollInterval = setInterval(function() {
-      try {
-        var sp = playerEl.smartplayer || (playerEl.shadowRoot && playerEl.shadowRoot.querySelector('video'));
-        var ct = sp && (sp.currentTime !== undefined ? sp.currentTime : sp.getCurrentTime && sp.getCurrentTime());
-        if (ct !== undefined && ct !== null) onTimeUpdate(ct);
-        if (buyRevealed) clearInterval(pollInterval);
-      } catch(e) {}
-    }, 2000);
-  }
+  var s = document.getElementById('buySection');
+  if (s) s.classList.add('visible');
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

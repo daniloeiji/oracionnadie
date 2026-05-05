@@ -1269,11 +1269,8 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Revela seção de compra após 19:35 min (1170 s)
-  setTimeout(function() {
-    var s = document.getElementById('buySection');
-    if (s) s.classList.add('visible');
-  }, 1170000);
+  var s = document.getElementById('buySection');
+  if (s) s.classList.add('visible');
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

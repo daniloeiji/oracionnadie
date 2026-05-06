@@ -607,32 +607,57 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
+    gap: 16px;
     width: 100%;
-    padding: 23px 32px;
+    padding: 22px 32px;
     border-radius: 999px;
-    background-image:
-      linear-gradient(105deg, transparent 25%, rgba(255, 255, 200, .45) 50%, transparent 75%),
-      linear-gradient(90deg, #9a6818 0%, #c8902a 20%, #fce085 50%, #c8902a 80%, #9a6818 100%);
+    background:
+      linear-gradient(105deg, transparent 30%, rgba(255,255,220,.5) 50%, transparent 70%),
+      linear-gradient(180deg, #ffe066 0%, #e8a020 40%, #c07010 100%);
     background-size: 300% 100%, 100% 100%;
     background-position: 200% 0, 0 0;
     background-repeat: no-repeat;
-    border: 2px solid rgba(255, 235, 160, .75);
-    color: #1f1208;
+    border: none;
+    outline: 2px solid rgba(255, 235, 160, .6);
+    outline-offset: 2px;
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,220,.6),
+      inset 0 -3px 0 rgba(80,40,0,.4),
+      0 6px 0 #7a4a00,
+      0 8px 24px rgba(200,130,20,.55),
+      0 0 60px rgba(255,180,30,.2);
+    color: #2a1500;
     font-family: "Inter", sans-serif;
-    font-weight: 800;
-    font-size: 25px;
+    font-weight: 900;
+    font-size: 22px;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: .06em;
+    letter-spacing: .07em;
+    text-shadow: 0 1px 0 rgba(255,240,180,.5);
     margin: 4px 0 16px;
-    animation: ctaBreathe 2.5s ease-in-out infinite, ctaLightSweep 6s linear infinite;
+    animation: ctaBreathe 2.2s ease-in-out infinite, ctaLightSweep 5s linear infinite;
+    transition: transform .12s, box-shadow .12s;
   }
   .cta-gold:hover {
-    animation: ctaBreatheHover 1.8s ease-in-out infinite, ctaLightSweep 6s linear infinite;
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,220,.7),
+      inset 0 -3px 0 rgba(80,40,0,.4),
+      0 8px 0 #7a4a00,
+      0 12px 32px rgba(200,130,20,.75),
+      0 0 80px rgba(255,180,30,.4);
+    animation: ctaBreatheHover 1.6s ease-in-out infinite, ctaLightSweep 5s linear infinite;
   }
-  .cta-gold:active { transform: scale(0.98); animation: none; }
-  .cta-gold svg { width: 24px; height: 24px; flex-shrink: 0; }
+  .cta-gold:active {
+    transform: translateY(4px);
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,220,.5),
+      inset 0 -1px 0 rgba(80,40,0,.4),
+      0 2px 0 #7a4a00,
+      0 4px 12px rgba(200,130,20,.4);
+    animation: none;
+  }
+  .cta-gold svg { width: 26px; height: 26px; flex-shrink: 0; }
   .cta-gold-sub {
     display: block;
     text-align: center;
@@ -1227,10 +1252,11 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
       </ul>
 
       <a class="cta-gold hotmart-fb-bttns" href="https://pay.hotmart.com/P105580794A?checkoutMode=10" target="_blank" rel="noopener">
-        QUIERO ACCEDER AHORA
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
         </svg>
+        SÍ, QUIERO MI ORACIÓN
       </a>
       <a class="cta-gold-sub" href="https://pay.hotmart.com/P105580794A?checkoutMode=10" target="_blank" rel="noopener">Recibir mi oración ahora →</a>
 

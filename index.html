@@ -1334,17 +1334,33 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Revela seção de compra após 10 minutos
-  setTimeout(function() {
+  // Revela seção de compra após 19:35 min acumulados (persiste entre sessões)
+  var DELAY = 1170000;
+  var KEY = 'vsl_start';
+
+  if (!localStorage.getItem(KEY)) {
+    localStorage.setItem(KEY, Date.now());
+  }
+
+  function revealBuy() {
     var s = document.getElementById('buySection');
     if (!s) return;
-    s.classList.add('reveal');              // tira do display:none
+    s.classList.add('reveal');
     requestAnimationFrame(function() {
       requestAnimationFrame(function() {
-        s.classList.add('visible');          // dispara a transição
+        s.classList.add('visible');
       });
     });
-  }, 1170000);
+  }
+
+  var elapsed = Date.now() - parseInt(localStorage.getItem(KEY), 10);
+  var remaining = DELAY - elapsed;
+
+  if (remaining <= 0) {
+    revealBuy();
+  } else {
+    setTimeout(revealBuy, remaining);
+  }
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

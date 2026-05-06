@@ -1269,8 +1269,32 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  var s = document.getElementById('buySection');
-  if (s) s.classList.add('visible');
+  // Revela seção de compra quando o vídeo atingir 10 segundos
+  var buyRevealed = false;
+
+  function revealBuy() {
+    if (buyRevealed) return;
+    buyRevealed = true;
+    var s = document.getElementById('buySection');
+    if (s) s.classList.add('visible');
+  }
+
+  var playerEl = document.getElementById('vid-69f3c775f646b7c8621cf0c7');
+  if (playerEl) {
+    playerEl.addEventListener('timeupdate', function(e) {
+      var t = e.detail && e.detail.currentTime;
+      if (t !== undefined && t >= 10) revealBuy();
+    });
+
+    var pollInterval = setInterval(function() {
+      try {
+        var sp = playerEl.smartplayer || (playerEl.shadowRoot && playerEl.shadowRoot.querySelector('video'));
+        var ct = sp && (sp.currentTime !== undefined ? sp.currentTime : sp.getCurrentTime && sp.getCurrentTime());
+        if (ct !== undefined && ct !== null && ct >= 10) revealBuy();
+        if (buyRevealed) clearInterval(pollInterval);
+      } catch(e) {}
+    }, 2000);
+  }
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

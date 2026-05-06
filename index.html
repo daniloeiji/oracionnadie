@@ -434,12 +434,15 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     h1.headline .hl-accent { animation: none; }
   }
 
-  /* Seção de compra — oculta até 19:35 min */
+  /* Seção de compra — oculta até 10 min */
   .buy-section {
+    display: none;
     opacity: 0;
     transform: translateY(28px);
-    pointer-events: none;
     transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .buy-section.reveal {
+    display: block;
   }
   .buy-section.visible {
     opacity: 1;
@@ -1331,8 +1334,17 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  var s = document.getElementById('buySection');
-  if (s) s.classList.add('visible');
+  // Revela seção de compra após 10 minutos
+  setTimeout(function() {
+    var s = document.getElementById('buySection');
+    if (!s) return;
+    s.classList.add('reveal');              // tira do display:none
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        s.classList.add('visible');          // dispara a transição
+      });
+    });
+  }, 600000);
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

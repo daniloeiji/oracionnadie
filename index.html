@@ -1269,32 +1269,53 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // Revela seção de compra quando o vídeo atingir 10 segundos
   var buyRevealed = false;
+  var BUY_TIME = 10;
 
   function revealBuy() {
     if (buyRevealed) return;
     buyRevealed = true;
+    clearInterval(pollInterval);
     var s = document.getElementById('buySection');
     if (s) s.classList.add('visible');
   }
 
-  var playerEl = document.getElementById('vid-69f3c775f646b7c8621cf0c7');
-  if (playerEl) {
-    playerEl.addEventListener('timeupdate', function(e) {
-      var t = e.detail && e.detail.currentTime;
-      if (t !== undefined && t >= 10) revealBuy();
-    });
-
-    var pollInterval = setInterval(function() {
-      try {
-        var sp = playerEl.smartplayer || (playerEl.shadowRoot && playerEl.shadowRoot.querySelector('video'));
-        var ct = sp && (sp.currentTime !== undefined ? sp.currentTime : sp.getCurrentTime && sp.getCurrentTime());
-        if (ct !== undefined && ct !== null && ct >= 10) revealBuy();
-        if (buyRevealed) clearInterval(pollInterval);
-      } catch(e) {}
-    }, 2000);
+  function checkTime(t) {
+    if (typeof t === 'number' && t >= BUY_TIME) revealBuy();
   }
+
+  var playerEl = document.getElementById('vid-69f3c775f646b7c8621cf0c7');
+
+  // Método 1: eventos no elemento (vários nomes possíveis)
+  if (playerEl) {
+    ['timeupdate','smartplayer:timeupdate','vturb:timeupdate','progress'].forEach(function(evt) {
+      playerEl.addEventListener(evt, function(e) {
+        var t = e.detail && (e.detail.currentTime !== undefined ? e.detail.currentTime : e.detail.time);
+        checkTime(t);
+      });
+    });
+  }
+
+  // Método 2: postMessage do iframe interno do Vturb
+  window.addEventListener('message', function(e) {
+    try {
+      var d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      if (d) checkTime(d.currentTime !== undefined ? d.currentTime : d.time);
+    } catch(ex) {}
+  });
+
+  // Método 3: polling no elemento <video> dentro do shadow DOM ou DOM interno
+  var pollInterval = setInterval(function() {
+    try {
+      var video = null;
+      if (playerEl) {
+        video = (playerEl.shadowRoot && playerEl.shadowRoot.querySelector('video'))
+             || playerEl.querySelector('video');
+      }
+      if (!video) video = document.querySelector('video');
+      if (video) checkTime(video.currentTime);
+    } catch(ex) {}
+  }, 1000);
 
   // Lock landscape quando qualquer player entrar em fullscreen (Android; iOS não suporta)
   function onFSChange() {

@@ -1103,45 +1103,57 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
 
   /* Guarantee */
   .guarantee {
-    border: 2px dashed rgba(255, 220, 140, .8);
-    background: linear-gradient(180deg, rgba(255, 248, 225, .96), rgba(253, 243, 212, .96));
+    background: linear-gradient(135deg, rgba(20, 12, 6, .88) 0%, rgba(38, 22, 8, .78) 100%);
+    border: 1px solid rgba(255, 208, 122, .32);
     backdrop-filter: blur(6px);
-    padding: 22px;
+    -webkit-backdrop-filter: blur(6px);
+    padding: 24px 26px;
     margin: 28px 0;
     display: flex;
-    gap: 18px;
-    align-items: center;
-    border-radius: 6px;
-    box-shadow: 0 12px 32px rgba(20, 10, 4, .35);
+    gap: 20px;
+    align-items: flex-start;
+    border-radius: 12px;
+    box-shadow:
+      0 0 0 1px rgba(255, 208, 122, .07),
+      0 8px 32px rgba(20, 10, 4, .55),
+      0 0 48px rgba(184, 134, 47, .07);
   }
   .guarantee .seal {
-    flex: 0 0 80px;
-    width: 80px; height: 80px;
+    flex: 0 0 48px;
+    width: 48px; height: 48px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #d04a3a, var(--red-deep));
-    color: #fff;
-    display: flex; flex-direction: column;
+    background: rgba(184, 134, 47, .14);
+    border: 1px solid rgba(255, 208, 122, .42);
+    display: flex;
     align-items: center; justify-content: center;
-    font-weight: 800;
-    line-height: 1;
-    box-shadow: 0 6px 18px -4px rgba(138, 40, 24, .5);
-    border: 3px solid #fff;
+    color: #ffd07a;
+    box-shadow: 0 0 18px rgba(184, 134, 47, .18);
   }
-  .guarantee .seal b { font-size: 28px; font-family: "Playfair Display", serif; }
-  .guarantee .seal small { font-size: 9px; letter-spacing: .15em; margin-top: 3px; }
+  .guarantee .seal svg { width: 22px; height: 22px; }
+  .guarantee-body { flex: 1; }
   .guarantee p {
     margin: 0;
     font-size: 14px;
-    color: #5a4010;
-    line-height: 1.55;
+    color: rgba(255, 245, 220, .88);
+    line-height: 1.68;
+    text-shadow: 0 1px 4px rgba(20, 10, 4, .55);
   }
   .guarantee p strong {
-    color: #2a1a10;
+    color: #ffd07a;
     font-family: "Playfair Display", serif;
     font-weight: 700;
     font-size: 16px;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 10px rgba(184, 134, 47, .35);
+  }
+  .guarantee-note {
+    display: block;
+    margin-top: 12px;
+    font-size: 11px;
+    color: rgba(255, 208, 122, .45);
+    letter-spacing: .07em;
+    text-shadow: 0 1px 3px rgba(20, 10, 4, .7);
   }
 
   /* Closing line */
@@ -1281,10 +1293,8 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     .closing { font-size: 16px; margin: 24px auto 8px; }
 
     .guarantee {
-      flex-direction: column;
-      text-align: center;
-      padding: 18px;
-      gap: 14px;
+      padding: 20px 18px;
+      gap: 16px;
     }
 
     .footer { font-size: 10.5px; margin-top: 28px; }
@@ -1443,13 +1453,19 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
   <!-- Guarantee -->
   <div class="guarantee">
     <div class="seal">
-      <b>7</b>
-      <small>DÍAS</small>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <polyline points="9 12 11 14 15 10"/>
+      </svg>
     </div>
-    <p>
-      <strong>Pruébalo 7 días sin riesgo</strong>
-      Vive los primeros 7 días con sinceridad. Si sientes que esta guía no habló a tu vida, puedes pedir la devolución. Sin presión. Sin culpa.
-    </p>
+    <div class="guarantee-body">
+      <p>
+        <strong>Tu decisión está protegida</strong>
+        Recibe la guía completa y vive los primeros 7 días con sinceridad. Si sientes que este camino no era para ti, puedes solicitar la devolución.<br/><br/>
+        Sin presión. Sin culpa. Sin preguntas incómodas.
+      </p>
+      <span class="guarantee-note">Garantía de devolución · Compra segura por Hotmart</span>
+    </div>
   </div>
 
   <!-- Trust strip -->

@@ -299,75 +299,28 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
   }
 
 
-  /* Urgency notice — high-attention warning */
+  /* Soft attention note below video */
   .sound-note {
     position: relative;
-    background: linear-gradient(180deg, #c0271a 0%, #8a1a10 100%);
-    border: 2px solid #ffd07a;
-    color: #fff;
+    background: rgba(20, 12, 6, .55);
+    border: 1px solid rgba(255, 208, 122, .38);
+    color: rgba(255, 245, 220, .88);
     text-align: center;
-    padding: 14px 18px;
+    padding: 12px 18px;
     font-size: 14px;
     margin: 14px 0 32px;
     border-radius: 6px;
-    font-weight: 600;
+    font-weight: 500;
     display: flex; align-items: center; justify-content: center; gap: 10px;
     line-height: 1.35;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 220, 140, .35),
-      inset 0 -1px 0 rgba(0, 0, 0, .25),
-      0 8px 24px rgba(140, 30, 16, .55),
-      0 0 0 4px rgba(255, 200, 100, .12),
-      0 0 50px rgba(255, 80, 50, .25);
-    animation: urgencyPulse 1.8s ease-in-out infinite;
+    text-shadow: 0 1px 4px rgba(20, 10, 4, .6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 4px 16px rgba(20, 10, 4, .35);
   }
   .sound-note b {
-    font-weight: 800;
-    color: #ffe9a8;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 2px;
-  }
-  .sound-note::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 6px;
-    background: linear-gradient(120deg,
-      transparent 25%,
-      rgba(255, 230, 160, .65) 50%,
-      transparent 75%);
-    background-size: 300% 100%;
-    pointer-events: none;
-    animation: urgencyShine 2.2s linear infinite;
-    mix-blend-mode: overlay;
-  }
-  @keyframes urgencyPulse {
-    0%, 100% {
-      transform: scale(1);
-      filter: brightness(1);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 220, 140, .2),
-        inset 0 -1px 0 rgba(0, 0, 0, .3),
-        0 4px 12px rgba(140, 30, 16, .3),
-        0 0 0 2px rgba(255, 200, 100, .05),
-        0 0 16px rgba(255, 80, 50, .1);
-    }
-    50% {
-      transform: scale(1.025);
-      filter: brightness(1.22);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 230, 160, .7),
-        inset 0 -1px 0 rgba(0, 0, 0, .2),
-        0 10px 32px rgba(170, 40, 20, .85),
-        0 0 0 7px rgba(255, 200, 100, .38),
-        0 0 68px rgba(255, 80, 50, .65);
-    }
-  }
-  @keyframes urgencyShine {
-    0% { background-position: 200% 0; }
-    100% { background-position: -100% 0; }
+    font-weight: 700;
+    color: #ffd07a;
   }
   @keyframes ctaBreathe {
     0%, 100% {
@@ -426,12 +379,93 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     50%       { text-shadow: 0 2px 24px rgba(255, 205, 70, .72), 0 0 48px rgba(255, 150, 30, .32); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .sound-note { animation: none; }
-    .sound-note::before { animation: none; opacity: 0; }
     .cta-gold { animation: none; }
     body::before { animation: none; }
     h1.headline, .lede, .video-card { animation: none; opacity: 1; transform: none; }
     h1.headline .hl-accent { animation: none; }
+  }
+
+  /* Emotional bridge note inside buy section */
+  .bridge-note {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto 8px;
+    padding: 0 8px;
+  }
+  .bridge-note .bridge-pre {
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255, 208, 122, .75);
+    font-weight: 600;
+    margin-bottom: 14px;
+    text-shadow: 0 1px 4px rgba(20, 10, 4, .7);
+  }
+  .bridge-note p {
+    font-family: "Playfair Display", serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(255, 245, 220, .92);
+    line-height: 1.7;
+    margin: 0 0 12px;
+    text-shadow: 0 1px 8px rgba(20, 10, 4, .75);
+    text-wrap: pretty;
+  }
+
+  /* Testimonials */
+  .testimonials {
+    margin: 28px 0 4px;
+  }
+  .testimonials-title {
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(255, 208, 122, .7);
+    font-weight: 600;
+    margin-bottom: 18px;
+    text-shadow: 0 1px 4px rgba(20, 10, 4, .7);
+  }
+  .testimonial-card {
+    position: relative;
+    background: rgba(20, 12, 6, .45);
+    border: 1px solid rgba(255, 208, 122, .18);
+    border-radius: 10px;
+    padding: 20px 22px 16px 32px;
+    margin-bottom: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .testimonial-card::before {
+    content: "\201C";
+    position: absolute;
+    top: 6px;
+    left: 12px;
+    font-family: "Playfair Display", serif;
+    font-size: 52px;
+    color: rgba(255, 208, 122, .25);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .testimonial-card p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: rgba(255, 245, 220, .88);
+    line-height: 1.68;
+    font-style: italic;
+    text-shadow: 0 1px 4px rgba(20, 10, 4, .55);
+  }
+  .testimonial-author {
+    font-size: 12px;
+    color: rgba(255, 208, 122, .75);
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-shadow: 0 1px 4px rgba(20, 10, 4, .7);
+  }
+  @media (max-width: 600px) {
+    .bridge-note p { font-size: 16px; }
+    .testimonial-card { padding: 18px 18px 14px 28px; }
+    .testimonial-card p { font-size: 13px; }
   }
 
   /* Seção de compra — oculta até 10 min */
@@ -1207,16 +1241,23 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     </div>
   </div>
 
-  <div class="sound-note" role="alert">
-    <span aria-hidden="true" style="font-size:18px;line-height:1;">⚠️</span>
-    <span>Mira el video <b>completo</b> antes de salir — puede no estar disponible después.</span>
+  <div class="sound-note" role="note">
+    <span aria-hidden="true" style="font-size:15px;line-height:1;">✨</span>
+    <span>Mira este video hasta el final — lo más importante se revela en los <b>últimos minutos</b>.</span>
   </div>
 
   <!-- Seção de compra — revelada após 19:35 min -->
   <div class="buy-section" id="buySection">
 
+  <!-- Emotional bridge -->
+  <div class="bridge-note">
+    <div class="bridge-pre">Solo para quien llegó hasta aquí</div>
+    <p>Si viste este video hasta el final, hay algo que quiero decirte con honestidad…</p>
+    <p>Esta oración no es un producto. Es una puerta que ya existe dentro de ti — esperando que alguien te muestre cómo abrirla. Lo que tienes frente a ti es ese camino.</p>
+  </div>
+
   <!-- Divider -->
-  <div class="divider"><span>Comienza Hoy Mismo</span></div>
+  <div class="divider"><span>Tu momento ha llegado</span></div>
 
   <!-- Offer block — book + price -->
   <div class="offer">
@@ -1233,24 +1274,29 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
       <ul class="offer-bullets">
         <li>
           <span class="ic" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 12 20 22 4 22 4 12"/>
-              <rect x="2" y="7" width="20" height="5"/>
-              <line x1="12" y1="22" x2="12" y2="7"/>
-              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-            </svg>
-          </span>
-          <span>Bonos exclusivos incluidos</span>
-        </li>
-        <li>
-          <span class="ic" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/>
               <polyline points="9 12 11 14 15 10"/>
             </svg>
           </span>
-          <span>Garantía total de devolución<br/>de por vida</span>
+          <span>El protocolo completo, paso a paso,<br/>desde la primera activación</span>
+        </li>
+        <li>
+          <span class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </span>
+          <span>Acceso inmediato,<br/>en cualquier parte del mundo</span>
+        </li>
+        <li>
+          <span class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </span>
+          <span>Devolución incondicional en 7 días —<br/>sin burocracia, sin preguntas</span>
         </li>
       </ul>
 
@@ -1272,6 +1318,38 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
     </div>
   </div>
 
+  <!-- Testimonials -->
+  <div class="testimonials">
+    <div class="testimonials-title">Lo que dicen quienes ya la tienen</div>
+
+    <div class="testimonial-card">
+      <p>"Llevaba tres años cargando algo que no sabía cómo soltar. La primera semana con esta oración, algo en mi pecho se aflojó. No sé explicarlo con palabras. Solo sé que ahora duermo diferente."</p>
+      <div class="testimonial-author">— María C., Ciudad de México</div>
+    </div>
+
+    <div class="testimonial-card">
+      <p>"Era escéptico — soy ingeniero, no creo fácil. Pero el video me convenció de intentarlo. La disciplina de la oración me dio claridad en mis mañanas. Dos meses después, cerré el proyecto que no avanzaba en un año."</p>
+      <div class="testimonial-author">— Rodrigo A., Bogotá</div>
+    </div>
+
+    <div class="testimonial-card">
+      <p>"Mi mamá estaba muy enferma y yo me sentía perdida. Esta oración me devolvió la calma cuando más la necesitaba. No sé si fue coincidencia, pero ella mejoró. Y yo también."</p>
+      <div class="testimonial-author">— Claudia M., Buenos Aires</div>
+    </div>
+  </div>
+
+  <!-- Guarantee -->
+  <div class="guarantee">
+    <div class="seal">
+      <b>7</b>
+      <small>DÍAS</small>
+    </div>
+    <p>
+      <strong>Mi compromiso contigo es absoluto</strong>
+      Si por cualquier razón sientes que esta oración no es para ti — dentro de los primeros 7 días, te devuelvo cada centavo. Sin burocracia. Sin preguntas. Mi fe en lo que tienes en tus manos es completa.
+    </p>
+  </div>
+
   <!-- Trust strip -->
   <div class="trust-strip" id="trustStrip">
     <div class="trust-item">
@@ -1280,7 +1358,7 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
           <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/>
         </svg>
       </div>
-      <span>Acceso<br/>inmediato</span>
+      <span>Recibido<br/>hoy mismo</span>
     </div>
     <div class="trust-item">
       <div class="ic">
@@ -1289,7 +1367,7 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
           <path d="M3 10h18"/>
         </svg>
       </div>
-      <span>Pago<br/>único</span>
+      <span>Un solo<br/>pago</span>
     </div>
     <div class="trust-item">
       <div class="ic">
@@ -1297,7 +1375,7 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
           <path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/>
         </svg>
       </div>
-      <span>100%<br/>seguro</span>
+      <span>Compra<br/>protegida</span>
     </div>
     <div class="trust-item">
       <div class="ic">
@@ -1305,7 +1383,7 @@ src="https://www.facebook.com/tr?id=1512450270590104&ev=PageView&noscript=1"/></
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       </div>
-      <span>Soporte<br/>dedicado</span>
+      <span>Acompañamiento<br/>completo</span>
     </div>
   </div>
 
